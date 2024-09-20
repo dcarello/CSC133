@@ -24,21 +24,14 @@ project.ext.jomlVersion = "1.10.5"
 project.ext.lwjgl3_awtVersion = "0.1.8"
 project.ext.steamworks4jVersion = "1.9.0"
 project.ext.steamworks4j_serverVersion = "1.9.0"
-// Define tasks based on the OS
+
+// Set native library based on the OS
 if (isWindows) {
-    tasks.register('windowsTask') {
-        doLast {
-            project.ext.lwjglNatives = "natives-windows"
-            // Add Windows-specific actions here
-        }
-    }
+    project.ext.lwjglNatives = "natives-windows"
 } else if (isLinux) {
-    tasks.register('linuxTask') {
-        doLast {
-            project.ext.lwjglNatives = "natives-linux"
-            // Add Linux-specific actions here
-        }
-    }
+    project.ext.lwjglNatives = "natives-linux"
+} else {
+    throw new GradleException("Unsupported operating system: $osName")
 }
 
 
