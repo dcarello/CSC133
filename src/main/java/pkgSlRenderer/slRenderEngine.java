@@ -14,9 +14,9 @@ public class slRenderEngine {
     private final int NUM_RGBA = 4;
     private final int NUM_3D_COORDS = 3;
     private final int TRIANGLES_PER_CIRCLE = 40;
-    private final float C_RADIUS = 0.05f;
-    private final int MAX_CIRCLES = 1;
-    private final int UPDATE_INTERVAL = 30;
+    private final float C_RADIUS = 0.55f;
+    private final int MAX_CIRCLES = 5;
+    private final int UPDATE_INTERVAL = 1000;
 
     private float[][] rand_colors;
     private float[][] rand_coords;
@@ -41,8 +41,8 @@ public class slRenderEngine {
 
     private void updateRandVertices(){
         for (int circle = 0; circle < MAX_CIRCLES; circle++){
-            rand_coords[circle][0] = (my_rand.nextFloat() * 2.0f - 1.0f);
-            rand_coords[circle][1] = (my_rand.nextFloat() * 2.0f - 1.0f);
+            rand_coords[circle][0] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
+            rand_coords[circle][1] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
 
             // Random RGBA color
             rand_colors[circle][0] = my_rand.nextFloat();
@@ -55,11 +55,20 @@ public class slRenderEngine {
 
     public void render() {
 
+        long lastUpdateTime = System.currentTimeMillis();
+
         while (!my_wm.isGlfwWindowClosed()) {
-            updateRandVertices();
             glfwPollEvents();
 
             glClear(GL_COLOR_BUFFER_BIT);
+
+            // Check if the update interval has passed
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
+                // Update the random positions and colors
+                updateRandVertices();
+                lastUpdateTime = currentTime;  // Reset the last update time
+            }
 
             for (int circle = 0; circle < MAX_CIRCLES; circle++){
                 renderCircle(rand_coords[circle][0], rand_coords[circle][1], rand_colors[circle]);
