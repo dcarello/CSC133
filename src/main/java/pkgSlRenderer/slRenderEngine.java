@@ -41,8 +41,8 @@ public class slRenderEngine {
 
     private void updateRandVertices(){
         for (int circle = 0; circle < MAX_CIRCLES; circle++){
-//            rand_coords[circle][0] = (my_rand.nextFloat() * 2.0f - 1.0f);
-//            rand_coords[circle][1] = (my_rand.nextFloat() * 2.0f - 1.0f);
+            rand_coords[circle][0] = (my_rand.nextFloat() * 2.0f - 1.0f);
+            rand_coords[circle][1] = (my_rand.nextFloat() * 2.0f - 1.0f);
 
             // Random RGBA color
             rand_colors[circle][0] = my_rand.nextFloat();
@@ -62,7 +62,7 @@ public class slRenderEngine {
             glClear(GL_COLOR_BUFFER_BIT);
 
             for (int circle = 0; circle < MAX_CIRCLES; circle++){
-                renderCircle(0.0f, 0.0f, rand_colors[circle]);
+                renderCircle(rand_coords[circle][0], rand_coords[circle][1], rand_colors[circle]);
             }
 
             my_wm.swapBuffers();
@@ -76,7 +76,7 @@ public class slRenderEngine {
 
         float delTheta = end_angle / TRIANGLES_PER_CIRCLE;
 
-        float x, y, oldX = C_RADIUS * (float) Math.cos(theta), oldY = C_RADIUS * (float) Math.sin(theta);
+        float x, y, oldX = centerX + C_RADIUS * (float) Math.cos(theta), oldY = centerY + C_RADIUS * (float) Math.sin(theta);
 
         glBegin(GL_TRIANGLES);
 
@@ -85,8 +85,8 @@ public class slRenderEngine {
         for (int cir_seg = 1; cir_seg <= TRIANGLES_PER_CIRCLE; cir_seg++){
             theta += delTheta;
 
-            x =  C_RADIUS * (float) Math.cos(theta);
-            y = C_RADIUS * (float) Math.sin(theta);
+            x =  centerX + C_RADIUS * (float) Math.cos(theta);
+            y = centerY + C_RADIUS * (float) Math.sin(theta);
             glColor4f(color[0], color[1], color[2], 1.0f);
             glVertex3f(centerX, centerY, 0.0f);
             glVertex3f(x, y, 0.0f);
