@@ -15,7 +15,7 @@ public class slRenderEngine {
     private final int TRIANGLES_PER_CIRCLE = 40;
     private final float C_RADIUS = 0.05f;
     private final int MAX_CIRCLES = 100;
-    private final int UPDATE_INTERVAL = 0;
+    private final int UPDATE_INTERVAL = 1000;
 
     private float[][] rand_colors;
     private float[][] rand_coords;
@@ -27,6 +27,9 @@ public class slRenderEngine {
         my_wm.updateContextToThis();
 
         GL.createCapabilities();
+
+        my_wm.enableResizeWindowCallback();
+
         float CC_RED = 0.0f, CC_GREEN = 0.0f, CC_BLUE = 1.0f, CC_ALPHA = 1.0f;
         glClearColor(CC_RED, CC_GREEN, CC_BLUE, CC_ALPHA);
 

@@ -1,6 +1,8 @@
 package pkgSlUtils;
 
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.system.MemoryUtil.*;
 
 
@@ -11,9 +13,11 @@ public class slWindowManager {
     private slWindowManager(){
     }
 
-//    public int[] getCurrentWindowSize(){
-//
-//    }
+    public int[] getCurrentWindowSize() {
+        int[][] win_size = new int[2][1];
+        glfwGetWindowSize(glfw_win, win_size[0], win_size[1]);
+        return new int[] {win_size[0][0], win_size[1][0]};
+    }
 
     public static slWindowManager get(){
         if (my_window == null){
@@ -53,5 +57,18 @@ public class slWindowManager {
     public void updateContextToThis(){
         glfwMakeContextCurrent(glfw_win);
     }
+
+    private static GLFWFramebufferSizeCallback resizeWindow =
+            new GLFWFramebufferSizeCallback(){
+                @Override
+                public void invoke(long window, int width, int height){
+                    glViewport(0,0,width, height);
+                }
+            };
+
+
+    public void enableResizeWindowCallback() {
+        glfwSetFramebufferSizeCallback(glfw_win, resizeWindow);
+    } // public void enableResizeWindowCallback(...)
 
 }
