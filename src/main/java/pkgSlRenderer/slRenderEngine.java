@@ -8,20 +8,19 @@ import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 public class slRenderEngine {
     private final int NUM_RGBA = 4;
     private final int NUM_3D_COORDS = 3;
     private final int TRIANGLES_PER_CIRCLE = 40;
-    private final float C_RADIUS = 0.55f;
-    private final int MAX_CIRCLES = 5;
-    private final int UPDATE_INTERVAL = 1000;
+    private final float C_RADIUS = 0.05f;
+    private final int MAX_CIRCLES = 100;
+    private final int UPDATE_INTERVAL = 0;
 
     private float[][] rand_colors;
     private float[][] rand_coords;
 
-    private slWindowManager my_wm = slWindowManager.get();
+    private final slWindowManager my_wm = slWindowManager.get();
     Random my_rand = new Random();
 
     public void initOpenGL(slWindowManager my_wm){
@@ -33,6 +32,8 @@ public class slRenderEngine {
 
         rand_coords = new float[MAX_CIRCLES][NUM_3D_COORDS];
         rand_colors = new float[MAX_CIRCLES][NUM_RGBA];
+        // Initial random vertices and colors
+        updateRandVertices();
     }
 
     private void generateCircleSegmentVertices(){
