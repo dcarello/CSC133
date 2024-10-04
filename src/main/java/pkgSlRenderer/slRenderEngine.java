@@ -15,7 +15,7 @@ public class slRenderEngine {
     private final int TRIANGLES_PER_CIRCLE = 40;
     private final float C_RADIUS = 0.05f;
     private final int MAX_CIRCLES = 100;
-    private final int UPDATE_INTERVAL = 1000;
+    private final int UPDATE_INTERVAL = 0;
 
     private float[][] rand_colors;
     private float[][] rand_coords;
