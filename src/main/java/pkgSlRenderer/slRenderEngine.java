@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.*;
 public abstract class slRenderEngine {
     private final int NUM_RGBA = 4;
     private final int NUM_3D_COORDS = 3;
-    private int TRIANGLES_PER_CIRCLE = 6;
+    protected int TRIANGLES_PER_CIRCLE = 3;
     private final float C_RADIUS = 1f;
     protected final int MAX_CIRCLES = 1;
     protected final int UPDATE_INTERVAL = 500;
