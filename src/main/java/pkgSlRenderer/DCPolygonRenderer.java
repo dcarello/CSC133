@@ -60,17 +60,25 @@ public class DCPolygonRenderer extends slRenderEngine{
         return NUM_ROWS * NUM_COLS;
     }
 
-    private void findCenterCoords(){
-        float x = -1.0f + C_RADIUS;
-        float y = 1.0f - C_RADIUS;
+    private void findCenterCoords() {
+
+        float stepDiameter = 2 * C_RADIUS;
+        float leftBorder = -1.0f;
+        float floatingPointAdjust = 0.000001f;
+        float rightBorder = 1.0f + floatingPointAdjust;
+        float topBorder = 1.0f;
+
+        float x = leftBorder + C_RADIUS;
+        float y = topBorder - C_RADIUS;
+        System.out.println("Radius: " + C_RADIUS);
         for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
             center_coords[polygon][0] = x;
             center_coords[polygon][1] = y;
             System.out.print("Polygon " + polygon + ": [" + center_coords[polygon][0] + ", " + center_coords[polygon][1] + "]\n");
-            x += (2 * C_RADIUS);
-            if (x > 1.0f - C_RADIUS){
-                x = -1.0f + C_RADIUS;
-                y -= (2 * C_RADIUS);
+            x += stepDiameter;
+            if (x > rightBorder - C_RADIUS){
+                x = leftBorder + C_RADIUS;
+                y -= stepDiameter;
             }
 
         }
