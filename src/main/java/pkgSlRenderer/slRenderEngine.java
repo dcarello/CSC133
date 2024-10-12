@@ -10,11 +10,11 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public abstract class slRenderEngine {
-    private final int NUM_RGBA = 4;
-    private final int NUM_3D_COORDS = 3;
+    protected final int NUM_RGBA = 4;
+    protected final int NUM_3D_COORDS = 3;
     protected int TRIANGLES_PER_CIRCLE = 3;
-    private final float C_RADIUS = 1f;
-    protected final int MAX_CIRCLES = 1;
+    protected float C_RADIUS = 0.5f;
+    protected int MAX_POLYGONS = 1;
     protected final int UPDATE_INTERVAL = 500;
 
     protected float[][] rand_colors;
@@ -36,8 +36,8 @@ public abstract class slRenderEngine {
         float CC_RED = 0.0f, CC_GREEN = 0.0f, CC_BLUE = 1.0f, CC_ALPHA = 1.0f;
         glClearColor(CC_RED, CC_GREEN, CC_BLUE, CC_ALPHA);
 
-        rand_coords = new float[MAX_CIRCLES][NUM_3D_COORDS];
-        rand_colors = new float[MAX_CIRCLES][NUM_RGBA];
+        rand_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
+        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
         // Initial random vertices and colors
         updateRandVertices();
     }
@@ -47,7 +47,7 @@ public abstract class slRenderEngine {
     }
 
     protected void updateRandVertices(){
-        for (int circle = 0; circle < MAX_CIRCLES; circle++){
+        for (int circle = 0; circle < MAX_POLYGONS; circle++){
             rand_coords[circle][0] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
             rand_coords[circle][1] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
 
@@ -77,8 +77,8 @@ public abstract class slRenderEngine {
             }
 
 
-            for (int circle = 0; circle < MAX_CIRCLES; circle++){
-                renderCircle(0, 0, rand_colors[circle]);
+            for (int circle = 0; circle < MAX_POLYGONS; circle++){
+                renderPolygon(rand_coords[circle][0], rand_coords[circle][1], rand_colors[circle]);
             }
 
             my_wm.swapBuffers();
@@ -86,7 +86,7 @@ public abstract class slRenderEngine {
         my_wm.destroyGlfwWindow();
     } // public void render(...)
 
-    protected void renderCircle(float centerX, float centerY, float[] color){
+    protected void renderPolygon(float centerX, float centerY, float[] color){
         float theta = 0.0f;
         final float end_angle = (float) (2.0f * Math.PI);
 

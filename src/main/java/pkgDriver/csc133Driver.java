@@ -12,7 +12,7 @@ public class csc133Driver {
         slWindowManager.get().initGLFWWindow(WIN_WIDTH, WIN_HEIGHT, "CSUS CSC133");
         my_re.initOpenGL(slWindowManager.get());
 
-        final int FRAME_DELAY = 700, NUM_ROWS = 4, NUM_COLS = 4;
+        final int FRAME_DELAY = 700, NUM_ROWS = 3, NUM_COLS = 3;
 
         my_re.render(FRAME_DELAY, NUM_ROWS, NUM_COLS);
        // c my_re.render();
