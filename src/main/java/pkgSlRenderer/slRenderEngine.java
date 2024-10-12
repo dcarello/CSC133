@@ -9,19 +9,22 @@ import org.lwjgl.opengl.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-public class slRenderEngine {
+public abstract class slRenderEngine {
     private final int NUM_RGBA = 4;
     private final int NUM_3D_COORDS = 3;
-    private final int TRIANGLES_PER_CIRCLE = 40;
-    private final float C_RADIUS = 0.05f;
-    private final int MAX_CIRCLES = 100;
-    private final int UPDATE_INTERVAL = 0;
+    private int TRIANGLES_PER_CIRCLE = 6;
+    private final float C_RADIUS = 1f;
+    protected final int MAX_CIRCLES = 1;
+    protected final int UPDATE_INTERVAL = 500;
 
-    private float[][] rand_colors;
+    protected float[][] rand_colors;
     private float[][] rand_coords;
 
-    private final slWindowManager my_wm = slWindowManager.get();
+    protected final slWindowManager my_wm = slWindowManager.get();
     Random my_rand = new Random();
+
+    // Extended Class Functions
+    public abstract void render(int FRAME_DELAY, int NUM_ROWS, int NUM_COLS);
 
     public void initOpenGL(slWindowManager my_wm){
         my_wm.updateContextToThis();
@@ -43,7 +46,7 @@ public class slRenderEngine {
 
     }
 
-    private void updateRandVertices(){
+    protected void updateRandVertices(){
         for (int circle = 0; circle < MAX_CIRCLES; circle++){
             rand_coords[circle][0] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
             rand_coords[circle][1] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
@@ -54,7 +57,6 @@ public class slRenderEngine {
             rand_colors[circle][2] = my_rand.nextFloat();
         }
     }
-
 
 
     public void render() {
@@ -74,8 +76,9 @@ public class slRenderEngine {
                 lastUpdateTime = currentTime;  // Reset the last update time
             }
 
+
             for (int circle = 0; circle < MAX_CIRCLES; circle++){
-                renderCircle(rand_coords[circle][0], rand_coords[circle][1], rand_colors[circle]);
+                renderCircle(0, 0, rand_colors[circle]);
             }
 
             my_wm.swapBuffers();
@@ -83,7 +86,7 @@ public class slRenderEngine {
         my_wm.destroyGlfwWindow();
     } // public void render(...)
 
-    private void renderCircle(float centerX, float centerY, float[] color){
+    protected void renderCircle(float centerX, float centerY, float[] color){
         float theta = 0.0f;
         final float end_angle = (float) (2.0f * Math.PI);
 
