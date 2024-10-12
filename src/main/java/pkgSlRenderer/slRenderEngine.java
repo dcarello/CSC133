@@ -17,7 +17,7 @@ public abstract class slRenderEngine {
     protected int MAX_POLYGONS = 1;
     protected final int UPDATE_INTERVAL = 500;
 
-    protected float[][] rand_colors;
+    private float[][] rand_colors;
     private float[][] rand_coords;
 
     protected final slWindowManager my_wm = slWindowManager.get();
@@ -50,12 +50,17 @@ public abstract class slRenderEngine {
         for (int circle = 0; circle < MAX_POLYGONS; circle++){
             rand_coords[circle][0] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
             rand_coords[circle][1] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
-
-            // Random RGBA color
-            rand_colors[circle][0] = my_rand.nextFloat();
-            rand_colors[circle][1] = my_rand.nextFloat();
-            rand_colors[circle][2] = my_rand.nextFloat();
         }
+    }
+
+    private void updateRandColors(){
+        for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
+            // Random RGBA color
+            rand_colors[polygon][0] = my_rand.nextFloat();
+            rand_colors[polygon][1] = my_rand.nextFloat();
+            rand_colors[polygon][2] = my_rand.nextFloat();
+        }
+
     }
 
 

@@ -7,13 +7,24 @@ import static org.lwjgl.opengl.GL11.glClear;
 public class DCPolygonRenderer extends slRenderEngine{
 
     private float[][] center_coords;
+    private float[] rand_colors;
+
+
+    private void updateRandColors(){
+        for (int RGB = 0; RGB < NUM_RGBA; RGB++) {
+            // Random RGBA color
+            rand_colors[RGB] = my_rand.nextFloat();
+            rand_colors[RGB] = my_rand.nextFloat();
+            rand_colors[RGB] = my_rand.nextFloat();
+        }
+    }
 
     public void render(int FRAME_DELAY, int NUM_ROWS, int NUM_COLS) {
 
         MAX_POLYGONS = numPolygons(NUM_ROWS, NUM_COLS);
 
         center_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
-        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
+        rand_colors = new float[NUM_RGBA];
 
         C_RADIUS = radiusFinder(NUM_ROWS, NUM_COLS);
 
@@ -24,7 +35,7 @@ public class DCPolygonRenderer extends slRenderEngine{
                 TRIANGLES_PER_CIRCLE = 3;
             }
 
-
+            updateRandColors();
 
             glfwPollEvents();
 
@@ -42,7 +53,7 @@ public class DCPolygonRenderer extends slRenderEngine{
 
 
             for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
-                renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors[polygon]);
+                renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors);
             }
             TRIANGLES_PER_CIRCLE++;
 
@@ -52,7 +63,7 @@ public class DCPolygonRenderer extends slRenderEngine{
     } // public void render(...)
 
     private float radiusFinder(int NUM_ROWS, int NUM_COLS) {
-        float radius = 1.0f / NUM_ROWS;
+        float radius = 1.0f / NUM_COLS;
         return radius;
     }
 
