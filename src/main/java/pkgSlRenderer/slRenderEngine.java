@@ -17,14 +17,15 @@ public abstract class slRenderEngine {
     protected int MAX_POLYGONS = 100;
     protected final int UPDATE_INTERVAL = 0;
 
-    private float[][] rand_colors;
-    private float[][] rand_coords;
+    protected float[][] rand_colors;
+    protected float[][] rand_coords;
 
     protected final slWindowManager my_wm = slWindowManager.get();
     Random my_rand = new Random();
 
     // Extended Class Functions
     public abstract void render(int FRAME_DELAY, int NUM_ROWS, int NUM_COLS);
+    public abstract void render(float RADIUS);
 
     public void initOpenGL(slWindowManager my_wm){
         my_wm.updateContextToThis();
@@ -36,10 +37,7 @@ public abstract class slRenderEngine {
         float CC_RED = 0.0f, CC_GREEN = 0.0f, CC_BLUE = 1.0f, CC_ALPHA = 1.0f;
         glClearColor(CC_RED, CC_GREEN, CC_BLUE, CC_ALPHA);
 
-        rand_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
-        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
-        // Initial random vertices and colors
-        updateRandVertices();
+
     }
 
     private void generateCircleSegmentVertices(){
@@ -59,6 +57,12 @@ public abstract class slRenderEngine {
     }
 
     public void render() {
+
+        rand_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
+        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
+        // Initial random vertices and colors
+        updateRandVertices();
+
 
         long lastUpdateTime = System.currentTimeMillis();
 
