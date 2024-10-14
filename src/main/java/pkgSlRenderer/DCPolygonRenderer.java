@@ -28,10 +28,10 @@ public class DCPolygonRenderer extends slRenderEngine{
 
         C_RADIUS = radiusFinder(NUM_ROWS, NUM_COLS);
 
-        findCenterCoords();
+        findCenterCoords(NUM_COLS);
 
         while (!my_wm.isGlfwWindowClosed()) {
-            if (TRIANGLES_PER_CIRCLE >= 40){
+            if (TRIANGLES_PER_CIRCLE >= 20){
                 TRIANGLES_PER_CIRCLE = 3;
             }
 
@@ -63,7 +63,12 @@ public class DCPolygonRenderer extends slRenderEngine{
     } // public void render(...)
 
     private float radiusFinder(int NUM_ROWS, int NUM_COLS) {
-        float radius = 1.0f / NUM_COLS;
+        float radius;
+        if (NUM_COLS > NUM_ROWS){
+            radius = 1.0f / NUM_COLS;
+        }else{
+            radius = 1.0f / NUM_ROWS;
+        }
         return radius;
     }
 
@@ -71,7 +76,7 @@ public class DCPolygonRenderer extends slRenderEngine{
         return NUM_ROWS * NUM_COLS;
     }
 
-    private void findCenterCoords() {
+    private void findCenterCoords(int NUM_COLS) {
 
         float stepDiameter = 2 * C_RADIUS;
         float leftBorder = -1.0f;
@@ -82,15 +87,20 @@ public class DCPolygonRenderer extends slRenderEngine{
         float x = leftBorder + C_RADIUS;
         float y = topBorder - C_RADIUS;
         System.out.println("Radius: " + C_RADIUS);
+        int colNum = 1;
         for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
             center_coords[polygon][0] = x;
             center_coords[polygon][1] = y;
             System.out.print("Polygon " + polygon + ": [" + center_coords[polygon][0] + ", " + center_coords[polygon][1] + "]\n");
-            x += stepDiameter;
-            if (x > rightBorder - C_RADIUS){
+
+            if (colNum == NUM_COLS){
                 x = leftBorder + C_RADIUS;
                 y -= stepDiameter;
+                colNum = 1;
+                continue;
             }
+            colNum++;
+            x += stepDiameter;
 
         }
     }

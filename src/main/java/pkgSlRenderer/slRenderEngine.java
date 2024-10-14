@@ -12,10 +12,10 @@ import static org.lwjgl.opengl.GL11.*;
 public abstract class slRenderEngine {
     protected final int NUM_RGBA = 4;
     protected final int NUM_3D_COORDS = 3;
-    protected int TRIANGLES_PER_CIRCLE = 3;
-    protected float C_RADIUS = 0.5f;
-    protected int MAX_POLYGONS = 1;
-    protected final int UPDATE_INTERVAL = 500;
+    protected int TRIANGLES_PER_CIRCLE = 40;
+    protected float C_RADIUS = 0.05f;
+    protected int MAX_POLYGONS = 100;
+    protected final int UPDATE_INTERVAL = 0;
 
     private float[][] rand_colors;
     private float[][] rand_coords;
@@ -50,19 +50,13 @@ public abstract class slRenderEngine {
         for (int circle = 0; circle < MAX_POLYGONS; circle++){
             rand_coords[circle][0] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
             rand_coords[circle][1] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
-        }
-    }
 
-    private void updateRandColors(){
-        for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
             // Random RGBA color
-            rand_colors[polygon][0] = my_rand.nextFloat();
-            rand_colors[polygon][1] = my_rand.nextFloat();
-            rand_colors[polygon][2] = my_rand.nextFloat();
+            rand_colors[circle][0] = my_rand.nextFloat();
+            rand_colors[circle][1] = my_rand.nextFloat();
+            rand_colors[circle][2] = my_rand.nextFloat();
         }
-
     }
-
 
     public void render() {
 
