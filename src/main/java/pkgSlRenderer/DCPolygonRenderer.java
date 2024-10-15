@@ -97,6 +97,45 @@ public class DCPolygonRenderer extends slRenderEngine{
         my_wm.destroyGlfwWindow();
     } // public void render(...)
 
+    public void render() {
+        NUM_ROWS = 30;
+        NUM_COLS = 30;
+        int FRAME_DELAY = 500;
+
+        C_RADIUS = radiusFinder(NUM_ROWS, NUM_COLS);
+
+        MAX_POLYGONS = numPolygons(NUM_ROWS, NUM_COLS);
+
+        initializeArrays();
+
+        findCenterCoords(NUM_COLS);
+
+        while (!my_wm.isGlfwWindowClosed()) {
+            if (TRIANGLES_PER_CIRCLE >= 20){
+                TRIANGLES_PER_CIRCLE = 3;
+            }
+
+            updateRandVertices();
+
+            glfwPollEvents();
+
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            if (FRAME_DELAY != 0){
+                Delay(FRAME_DELAY);
+            }
+
+            for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
+                renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors[0]);
+            }
+            // Increases number of sides on polygon by 1
+            TRIANGLES_PER_CIRCLE++;
+
+            my_wm.swapBuffers();
+        } // while (!my_wm.isGlfwWindowClosed())
+        my_wm.destroyGlfwWindow();
+    } // public void render(...)
+
 
     private float radiusFinder(int NUM_ROWS, int NUM_COLS) {
         float radius;
@@ -154,5 +193,9 @@ public class DCPolygonRenderer extends slRenderEngine{
             Thread.currentThread().interrupt();
             System.err.println("Thread was interrupted during sleep.");
         }
+    }
+
+    private void polygonPrinting(){
+
     }
 }

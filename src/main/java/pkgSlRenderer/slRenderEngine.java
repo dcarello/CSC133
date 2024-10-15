@@ -26,6 +26,7 @@ public abstract class slRenderEngine {
     // Extended Class Functions
     public abstract void render(int FRAME_DELAY, int NUM_ROWS, int NUM_COLS);
     public abstract void render(float RADIUS);
+    public abstract void render();
 
     public void initOpenGL(slWindowManager my_wm){
         my_wm.updateContextToThis();
@@ -56,38 +57,38 @@ public abstract class slRenderEngine {
         }
     }
 
-    public void render() {
-
-        rand_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
-        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
-        // Initial random vertices and colors
-        updateRandVertices();
-
-
-        long lastUpdateTime = System.currentTimeMillis();
-
-        while (!my_wm.isGlfwWindowClosed()) {
-            glfwPollEvents();
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            // Check if the update interval has passed
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
-                // Update the random positions and colors
-                updateRandVertices();
-                lastUpdateTime = currentTime;  // Reset the last update time
-            }
-
-
-            for (int circle = 0; circle < MAX_POLYGONS; circle++){
-                renderPolygon(rand_coords[circle][0], rand_coords[circle][1], rand_colors[circle]);
-            }
-
-            my_wm.swapBuffers();
-        } // while (!my_wm.isGlfwWindowClosed())
-        my_wm.destroyGlfwWindow();
-    } // public void render(...)
+//    public void render() {
+//
+//        rand_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
+//        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
+//        // Initial random vertices and colors
+//        updateRandVertices();
+//
+//
+//        long lastUpdateTime = System.currentTimeMillis();
+//
+//        while (!my_wm.isGlfwWindowClosed()) {
+//            glfwPollEvents();
+//
+//            glClear(GL_COLOR_BUFFER_BIT);
+//
+//            // Check if the update interval has passed
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
+//                // Update the random positions and colors
+//                updateRandVertices();
+//                lastUpdateTime = currentTime;  // Reset the last update time
+//            }
+//
+//
+//            for (int circle = 0; circle < MAX_POLYGONS; circle++){
+//                renderPolygon(rand_coords[circle][0], rand_coords[circle][1], rand_colors[circle]);
+//            }
+//
+//            my_wm.swapBuffers();
+//        } // while (!my_wm.isGlfwWindowClosed())
+//        my_wm.destroyGlfwWindow();
+//    } // public void render(...)
 
     protected void renderPolygon(float centerX, float centerY, float[] color){
         float theta = 0.0f;

@@ -16,7 +16,7 @@ public class csc133Driver {
         final float RADIUS = 0.5f;
 
 //        my_re.render(FRAME_DELAY, NUM_ROWS, NUM_COLS);
-        my_re.render(RADIUS);
-//        my_re.render();
+//        my_re.render(RADIUS);
+        my_re.render();
     } // public static void main(String[] my_args)
 } // public class csc133Driver(...)
