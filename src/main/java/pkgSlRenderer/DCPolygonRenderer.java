@@ -29,28 +29,7 @@ public class DCPolygonRenderer extends slRenderEngine{
         findCenterCoords(NUM_COLS);
 
         while (!my_wm.isGlfwWindowClosed()) {
-            if (TRIANGLES_PER_CIRCLE >= 20){
-                TRIANGLES_PER_CIRCLE = 3;
-            }
-
-            updateRandVertices();
-
-            glfwPollEvents();
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            if (FRAME_DELAY != 0){
-                Delay(FRAME_DELAY);
-            }
-
-
-            for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
-                renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors[0]);
-            }
-            // Increases number of sides on polygon by 1
-            TRIANGLES_PER_CIRCLE++;
-
-            my_wm.swapBuffers();
+            polygonPrinting(FRAME_DELAY);
         } // while (!my_wm.isGlfwWindowClosed())
         my_wm.destroyGlfwWindow();
     } // public void render(...)
@@ -72,27 +51,7 @@ public class DCPolygonRenderer extends slRenderEngine{
         findCenterCoords(NUM_COLS);
 
         while (!my_wm.isGlfwWindowClosed()) {
-            if (TRIANGLES_PER_CIRCLE >= 20){
-                TRIANGLES_PER_CIRCLE = 3;
-            }
-
-            updateRandVertices();
-
-            glfwPollEvents();
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            if (FRAME_DELAY != 0){
-                Delay(FRAME_DELAY);
-            }
-
-            for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
-                renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors[0]);
-            }
-            // Increases number of sides on polygon by 1
-            TRIANGLES_PER_CIRCLE++;
-
-            my_wm.swapBuffers();
+            polygonPrinting(FRAME_DELAY);
         } // while (!my_wm.isGlfwWindowClosed())
         my_wm.destroyGlfwWindow();
     } // public void render(...)
@@ -111,27 +70,7 @@ public class DCPolygonRenderer extends slRenderEngine{
         findCenterCoords(NUM_COLS);
 
         while (!my_wm.isGlfwWindowClosed()) {
-            if (TRIANGLES_PER_CIRCLE >= 20){
-                TRIANGLES_PER_CIRCLE = 3;
-            }
-
-            updateRandVertices();
-
-            glfwPollEvents();
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            if (FRAME_DELAY != 0){
-                Delay(FRAME_DELAY);
-            }
-
-            for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
-                renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors[0]);
-            }
-            // Increases number of sides on polygon by 1
-            TRIANGLES_PER_CIRCLE++;
-
-            my_wm.swapBuffers();
+           polygonPrinting(FRAME_DELAY);
         } // while (!my_wm.isGlfwWindowClosed())
         my_wm.destroyGlfwWindow();
     } // public void render(...)
@@ -195,7 +134,27 @@ public class DCPolygonRenderer extends slRenderEngine{
         }
     }
 
-    private void polygonPrinting(){
+    private void polygonPrinting(int FRAME_DELAY){
+        if (TRIANGLES_PER_CIRCLE >= 20){
+            TRIANGLES_PER_CIRCLE = 3;
+        }
 
+        updateRandVertices();
+
+        glfwPollEvents();
+
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        if (FRAME_DELAY != 0){
+            Delay(FRAME_DELAY);
+        }
+
+        for (int polygon = 0; polygon < MAX_POLYGONS; polygon++){
+            renderPolygon(center_coords[polygon][0], center_coords[polygon][1], rand_colors[0]);
+        }
+        // Increases number of sides on polygon by 1
+        TRIANGLES_PER_CIRCLE++;
+
+        my_wm.swapBuffers();
     }
 }
