@@ -1,18 +1,15 @@
 package pkgSlRenderer;
 
 import pkgSlUtils.slWindowManager;
-
 import java.util.Random;
-
 import org.lwjgl.opengl.*;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public abstract class slRenderEngine {
     protected final int NUM_RGBA = 4;
     protected final int NUM_3D_COORDS = 3;
-    protected int TRIANGLES_PER_CIRCLE = 40;
+    protected int NUMBER_OF_SIDES = 40;
     protected float C_RADIUS = 0.05f;
     protected int MAX_POLYGONS = 100;
     protected final int UPDATE_INTERVAL = 0;
@@ -37,15 +34,9 @@ public abstract class slRenderEngine {
 
         float CC_RED = 0.0f, CC_GREEN = 0.0f, CC_BLUE = 1.0f, CC_ALPHA = 1.0f;
         glClearColor(CC_RED, CC_GREEN, CC_BLUE, CC_ALPHA);
-
-
     }
 
-    private void generateCircleSegmentVertices(){
-
-    }
-
-    protected void updateRandVertices(){
+    protected void updateRandVerticesRandColors(){
         for (int circle = 0; circle < MAX_POLYGONS; circle++){
             rand_coords[circle][0] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
             rand_coords[circle][1] = (my_rand.nextFloat() * (2.0f * (1 - C_RADIUS)) - (1.0f - C_RADIUS));
@@ -62,7 +53,7 @@ public abstract class slRenderEngine {
 //        rand_coords = new float[MAX_POLYGONS][NUM_3D_COORDS];
 //        rand_colors = new float[MAX_POLYGONS][NUM_RGBA];
 //        // Initial random vertices and colors
-//        updateRandVertices();
+//        updateRandVerticesRandColors();
 //
 //
 //        long lastUpdateTime = System.currentTimeMillis();
@@ -76,7 +67,7 @@ public abstract class slRenderEngine {
 //            long currentTime = System.currentTimeMillis();
 //            if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
 //                // Update the random positions and colors
-//                updateRandVertices();
+//                updateRandVerticesRandColors();
 //                lastUpdateTime = currentTime;  // Reset the last update time
 //            }
 //
@@ -90,11 +81,12 @@ public abstract class slRenderEngine {
 //        my_wm.destroyGlfwWindow();
 //    } // public void render(...)
 
+    // Renders a polygon given a center coordinate and color
     protected void renderPolygon(float centerX, float centerY, float[] color){
         float theta = 0.0f;
         final float end_angle = (float) (2.0f * Math.PI);
 
-        float delTheta = end_angle / TRIANGLES_PER_CIRCLE;
+        float delTheta = end_angle / NUMBER_OF_SIDES;
 
         float x, y, oldX = centerX + C_RADIUS * (float) Math.cos(theta), oldY = centerY + C_RADIUS * (float) Math.sin(theta);
 
@@ -102,7 +94,7 @@ public abstract class slRenderEngine {
 
         // Each triangle will require color + 3 vertices as below.
         // For each circle you need 40 of these for the assignment.
-        for (int cir_seg = 1; cir_seg <= TRIANGLES_PER_CIRCLE; cir_seg++){
+        for (int cir_seg = 1; cir_seg <= NUMBER_OF_SIDES; cir_seg++){
             theta += delTheta;
 
             x =  centerX + C_RADIUS * (float) Math.cos(theta);
@@ -115,10 +107,6 @@ public abstract class slRenderEngine {
             oldX = x;
             oldY = y;
         }
-
         glEnd();
-
     }
-
-
 }
